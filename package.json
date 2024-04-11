@@ -1,0 +1,21 @@
+{
+  "name": "codeqc",
+  "version": "1.0.0",
+  "description": "A package using multiple 3rd party tools for checking frontend code quality metrics",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc",
+    "prepare": "npm run build"
+  },
+  "bin": {
+    "codeqc": "./dist/cli.js"
+  },
+  "keywords": [],
+  "author": "stephen",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^20.12.7",
+    "typescript": "^5.4.5"
+  }
+}
