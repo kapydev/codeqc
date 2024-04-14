@@ -17,5 +17,13 @@
   "devDependencies": {
     "@types/node": "^20.12.7",
     "typescript": "^5.4.5"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.20.4",
+    "@google/generative-ai": "^0.6.0",
+    "@projectwallace/css-code-quality": "^1.0.0",
+    "dotenv": "^16.4.5",
+    "lighthouse": "^11.7.1",
+    "openai": "^4.33.0"
   }
 }
