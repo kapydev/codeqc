@@ -1,13 +1,29 @@
+import { getClaudeReview } from "./api/claude";
+import { getGeminiReview } from "./api/gemini";
 import { getGPTReview } from "./api/gpt";
+import { getLightHouseReview } from "./api/lighthouse";
+import { getWallaceReview } from "./api/wallace";
 
-export async function greet(name: string): Promise<void> {
+export async function getReview(filePath: string): Promise<void> {
+  // AI
   const gptReview = await getGPTReview();
-  console.log(gptReview);
-  console.log(`Hello, ${name}!`);
-}
+  const claudeReview = await getClaudeReview();
+  const geminiReview = await getGeminiReview();
 
-export function sayGoodbye(name: string): void {
-  console.log(`Goodbye, ${name}!`);
+  // NON-AI
+  const lightHouseReview = await getLightHouseReview();
+  const wallaceReview = await getWallaceReview();
+
+  const overallReview = [
+    gptReview,
+    claudeReview,
+    geminiReview,
+    lightHouseReview,
+    wallaceReview,
+  ];
+
+  console.log(`This is the file path, ${filePath}!`);
+  console.log(`This is the overall review, ${overallReview}!`);
 }
 
 /*
