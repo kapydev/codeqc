@@ -2,6 +2,7 @@ const esbuild = require("esbuild");
 const { nodeExternalsPlugin } = require("esbuild-node-externals");
 const fs = require("fs");
 const path = require("path");
+const dotenv = require("dotenv");
 
 const buildTimePlugin = {
   name: "rebuild-log",
@@ -17,6 +18,14 @@ const buildTimePlugin = {
   },
 };
 
+const config = dotenv.config();
+
+const DEFINED_PROCESS_ENVS = Object.fromEntries(
+  Object.entries(config.parsed ?? {}).flatMap(([key, val]) => {
+    return [[`process.env.${key}`, JSON.stringify(val)]];
+  })
+);
+
 const run = async () => {
   const ctx = await esbuild.context({
     entryPoints: ["src/index.ts", "src/cli.ts", "src/test/**/*"], // change 'src/index.ts' to your main TypeScript file
@@ -25,13 +34,20 @@ const run = async () => {
     platform: "node",
     minify: false,
     sourcemap: true,
+    define: DEFINED_PROCESS_ENVS,
     banner: {
       js: fs.readFileSync(
         path.join(__dirname, "./esbuild/cjs.shim.js"),
         "utf-8"
       ),
     },
-    plugins: [nodeExternalsPlugin(), buildTimePlugin],
+    plugins: [
+      nodeExternalsPlugin({
+        //Some stuff needs to be bundled otherwise will have esm errors
+        allowList: ["execa"],
+      }),
+      buildTimePlugin,
+    ],
   });
 
   // Process command line arguments
