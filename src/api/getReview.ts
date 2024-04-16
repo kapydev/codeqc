@@ -1,3 +1,4 @@
+import ora from "ora";
 import { getClaudeReview } from "./reviewers/claude";
 import { getGeminiReview } from "./reviewers/gemini";
 import { getGPTReview } from "./reviewers/gpt";
@@ -5,6 +6,9 @@ import { getGPTReview } from "./reviewers/gpt";
 // import { getWallaceReview } from "./reviewers/wallace";
 
 export async function getReview(filePath: string): Promise<void> {
+  const spinner = ora("Reviewing Code");
+  spinner.start()
+
   // AI
   const gptReview = await getGPTReview();
   // const claudeReview = await getClaudeReview();

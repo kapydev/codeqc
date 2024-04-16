@@ -35,6 +35,7 @@ const run = async () => {
     minify: false,
     sourcemap: true,
     define: DEFINED_PROCESS_ENVS,
+    format: "esm",
     banner: {
       js: fs.readFileSync(
         path.join(__dirname, "./esbuild/cjs.shim.js"),

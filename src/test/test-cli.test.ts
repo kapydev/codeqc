@@ -5,7 +5,6 @@ import { getReview } from "../api";
 
 test("CodeQC can be run via API", async (t) => {
   const review = await getReview("blabalaa");
-  console.log(review);
   t.pass();
 });
 
