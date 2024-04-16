@@ -1,4 +1,5 @@
 import Anthropic from "@anthropic-ai/sdk";
+import { Reviewer } from "../reviewScore";
 
 const apiKey = process.env.API_KEY_CLAUDE;
 
@@ -6,7 +7,7 @@ const anthropic = new Anthropic({
   apiKey: apiKey,
 });
 
-export async function getClaudeReview() {
+export const getClaudeReview: Reviewer = async () => {
   if (!apiKey) throw new Error("API_KEY_CLAUDE is not set");
 
   const msg = await anthropic.messages.create({
@@ -15,4 +16,4 @@ export async function getClaudeReview() {
     messages: [{ role: "user", content: "Hello, Claude" }],
   });
   return msg;
-}
+};

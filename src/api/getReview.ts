@@ -1,4 +1,4 @@
-import ora from "ora";
+import Listr from "listr";
 import { getClaudeReview } from "./reviewers/ai/claude";
 import { getGeminiReview } from "./reviewers/ai/gemini";
 import { getGPTReview } from "./reviewers/ai/gpt";
@@ -8,59 +8,76 @@ import { Folder, filterRelevantFiles, getFolderFromPath } from "../helpers";
 
 export async function getReview(folder: string | Folder): Promise<void> {
   console.log("✨ Running Code Review");
-  const spinner = ora("Reviewing Code");
+
+  let resolvedFolder: Folder | undefined = undefined;
+
+  let relevantFiles: Folder = undefined!;
+
+  const tasks = new Listr([
+    {
+      title: "Reading Folder",
+      task: async () => {
+        if (typeof folder === "string") {
+          resolvedFolder = await getFolderFromPath(folder);
+        } else {
+          resolvedFolder = folder;
+        }
+      },
+    },
+    {
+      title: "Filtering Relevant Files",
+      task: () => {
+        if (resolvedFolder === undefined) {
+          throw Error("MISSING_RESOLVED_FOLDER");
+        }
+        relevantFiles = filterRelevantFiles(resolvedFolder);
+      },
+    },
+    {
+      title: "Review Code",
+      task: () => {
+        return new Listr(
+          [
+            {
+              title: "Running GPT Review",
+              task: () => getGPTReview(relevantFiles),
+              skip: (ctx) => ctx.isError,
+            },
+            {
+              title: "Running Claude Review",
+              task: () => getClaudeReview(relevantFiles),
+              skip: (ctx) => ctx.isError,
+            },
+            {
+              title: "Running Gemini Review",
+              task: () => getGeminiReview(relevantFiles),
+              skip: (ctx) => ctx.isError,
+            },
+            // Uncomment and modify the following lines for other reviews you might want to include:
+            // {
+            //   title: 'Running LightHouse Review',
+            //   task: () => getLightHouseReview(relevantFiles),
+            //   skip: ctx => ctx.isError,
+            // },
+            // {
+            //   title: 'Running Wallace Review',
+            //   task: () => getWallaceReview(relevantFiles),
+            //   skip: ctx => ctx.isError,
+            // },
+          ],
+          {
+            concurrent: true, // Run all tasks concurrently
+            exitOnError: false, // Do not stop other tasks if one fails
+          }
+        );
+      },
+    },
+  ]);
+
   try {
-    spinner.start("Reading Folder");
-    let resolvedFolder: Folder | undefined = undefined;
-
-    if (typeof folder === "string") {
-      resolvedFolder = await getFolderFromPath(folder);
-    } else {
-      resolvedFolder = folder;
-    }
-
-    if (resolvedFolder === undefined) {
-      throw Error("COULD_NOT_RESOLVE_FOLDER");
-    }
-
-    spinner.succeed();
-    spinner.start("Filtering Relevant Files");
-
-    const relevantFiles = filterRelevantFiles(resolvedFolder);
-
-    // AI
-    spinner.start("Running GPT Review");
-    const gptReview = await getGPTReview(relevantFiles);
-    spinner.succeed();
-    debugger;
-    // // const claudeReview = await getClaudeReview();
-    // const geminiReview = await getGeminiReview();
-
-    // // NON-AI
-    // // const lightHouseReview = await getLightHouseReview();
-    // // const wallaceReview = await getWallaceReview();
-
-    // const overallReview = [
-    //   gptReview,
-    //   // claudeReview,
-    //   geminiReview,
-    //   // lightHouseReview,
-    //   // wallaceReview,
-    // ];
-
-    // console.log(`This is the file path, ${filePath}!`);
-    // console.log(`This is the overall review, ${overallReview}!`);
-    spinner.stop();
-  } catch (e) {
-    spinner.fail();
-    throw e;
+    const result = await tasks.run();
+    console.log("All reviews completed:", result);
+  } catch (error) {
+    console.error("An error occurred:", error);
   }
 }
-
-/*
-Google lighthouse - https://github.com/GoogleChrome/lighthouse/blob/HEAD/docs/readme.md#using-programmatically
-GPT - https://platform.openai.com/docs/quickstart?context=node
-Claude - https://docs.anthropic.com/claude/reference/client-sdks#typescript
-Gemini - https://ai.google.dev/tutorials/get_started_node#generate-text-from-text-input
-Project Walace - https://github.com/projectwallace/css-code-quality 
-*/

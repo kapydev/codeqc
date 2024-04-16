@@ -17,6 +17,7 @@
   "author": "stephen",
   "license": "ISC",
   "devDependencies": {
+    "@types/listr": "^0.14.9",
     "@types/node": "^20.12.7",
     "typescript": "^5.4.5"
   },
@@ -32,6 +33,7 @@
     "esbuild-node-externals": "^1.13.0",
     "execa": "^8.0.1",
     "lighthouse": "^11.7.1",
+    "listr": "^0.14.3",
     "openai": "^4.33.0",
     "ora": "^8.0.1",
     "zod": "^3.22.4"

@@ -1,8 +1,9 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
+import { Reviewer } from "../reviewScore";
 
 const apiKey = process.env.API_KEY_GEMINI;
 
-export async function getGeminiReview() {
+export const getGeminiReview: Reviewer = async () => {
   if (!apiKey) throw new Error("API_KEY_GEMINI is not set");
 
   const genAI = new GoogleGenerativeAI(apiKey);
@@ -18,4 +19,4 @@ export async function getGeminiReview() {
   const text = response.text();
 
   return text;
-}
+};
