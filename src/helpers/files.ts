@@ -12,9 +12,27 @@ export type Folder = {
   subfolders: Folder[];
 };
 
-export function traverseFolder(folder: Folder, handler: (file: File) => void) {
-  folder.files.forEach(handler);
-  folder.subfolders.forEach((subfolder) => traverseFolder(subfolder, handler));
+export interface TraverseFolderMeta {
+  fullPath: string;
+}
+
+export function traverseFolder(
+  folder: Folder,
+  handler: (file: File, meta: TraverseFolderMeta) => void,
+  parentMeta?: TraverseFolderMeta
+) {
+  const currentPath = parentMeta?.fullPath
+    ? `${parentMeta?.fullPath}/${folder.name}`
+    : folder.name;
+
+  folder.files.forEach((file) => {
+    const metaData = { fullPath: `${currentPath}/${file.name}` };
+    handler(file, metaData);
+  });
+
+  folder.subfolders.forEach((subfolder) => {
+    traverseFolder(subfolder, handler, { fullPath: currentPath });
+  });
 }
 
 export async function getFolderFromPath(dirPath: string): Promise<Folder> {

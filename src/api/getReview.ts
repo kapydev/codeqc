@@ -40,13 +40,13 @@ export async function getReview(folder: string | Folder) {
         task: () => {
           return new Listr(
             [
-              // {
-              //   title: "Running GPT Review",
-              //   task: async () => {
-              //     const review = await getGPTReview(relevantFiles);
-              //     reviews.push(review);
-              //   },
-              // },
+              {
+                title: "Running GPT Review",
+                task: async () => {
+                  const review = await getGPTReview(relevantFiles);
+                  reviews.push(review);
+                },
+              },
               // {
               //   title: "Running Claude Review",
               //   task: async () => {
@@ -54,17 +54,17 @@ export async function getReview(folder: string | Folder) {
               //     reviews.push(review);
               //   },
               // },
-              // {
-              //   title: "Running Gemini Review",
-              //   task: async () => {
-              //     const review = await getGeminiReview(relevantFiles);
-              //     reviews.push(review);
-              //   },
-              // },
               {
-                title: "Running LightHouse Review",
-                task: () => getLightHouseReview(relevantFiles),
+                title: "Running Gemini Review",
+                task: async () => {
+                  const review = await getGeminiReview(relevantFiles);
+                  reviews.push(review);
+                },
               },
+              // {
+              //   title: "Running LightHouse Review",
+              //   task: () => getLightHouseReview(relevantFiles),
+              // },
               {
                 title: 'Running Wallace Review',
                 task: () => getWallaceReview(relevantFiles),
