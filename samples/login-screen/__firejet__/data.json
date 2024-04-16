@@ -1,0 +1,18 @@
+{
+  "pages": {
+    "main": {
+      "componentData": [
+        {
+          "type": "EXISTING_COMPONENT",
+          "x": 10,
+          "y": 10,
+          "width": 368,
+          "height": 863,
+          "filePath": "/src/components/LoginScreenWithDropdown.tsx",
+          "exportName": "default"
+        }
+      ]
+    }
+  },
+  "version": { "major": 0, "minor": 0, "patch": 0 }
+}
