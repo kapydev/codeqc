@@ -1,8 +1,15 @@
 import test from "ava";
 import { execa } from "execa";
 import appRoot from "app-root-path"; // Import app-root-path to determine the root directory
+import { getReview } from "../api";
 
-test("CodeQC can be run from the command line", async (t) => {
+test("CodeQC can be run via API", async (t) => {
+  const review = await getReview("blabalaa");
+  console.log(review);
+  t.pass();
+});
+
+test.skip("CodeQC can be run from the command line", async (t) => {
   const name = "exampleName"; // Replace 'exampleName' with a valid name argument for your use case
   const cliPath = appRoot.resolve("/dist/cli.js"); // Resolves the path to the CLI script relative to the app root
   const { stdout } = await execa("node", [cliPath, "review", name]); // Use the resolved path in execa

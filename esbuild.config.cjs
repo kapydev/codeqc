@@ -44,7 +44,7 @@ const run = async () => {
     plugins: [
       nodeExternalsPlugin({
         //Some stuff needs to be bundled otherwise will have esm errors
-        allowList: ["execa"],
+        allowList: ["execa", "lighthouse"],
       }),
       buildTimePlugin,
     ],
