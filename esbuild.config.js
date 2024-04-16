@@ -1,27 +1,29 @@
 import esbuild from "esbuild";
+import { nodeExternalsPlugin } from "esbuild-node-externals";
 
+const buildTimePlugin = {
+    name: "rebuild-log",
+    setup({ onStart, onEnd }) {
+        var t;
+        onStart(() => {
+            console.log("⌛ Change detected - Rebuilding");
+            t = Date.now();
+        });
+        onEnd(() => {
+            console.log("⚡ Build finished in", Date.now() - t, "ms");
+        });
+    },
+};
 const ctx = await esbuild.context({
   entryPoints: ["src/index.ts", "src/cli.ts", "src/test/**/*"], // change 'src/index.ts' to your main TypeScript file
   outdir: "dist",
-  bundle: false,
+  bundle: true,
   platform: "node",
-  target: "node14", // specify your Node.js target version
   minify: false,
   sourcemap: true,
   plugins: [
-    {
-      name: "rebuild-log",
-      setup({ onStart, onEnd }) {
-        var t;
-        onStart(() => {
-          console.log("⌛ Rebuilding");
-          t = Date.now();
-        });
-        onEnd(() => {
-          console.log("⚡ build finished in", Date.now() - t, "ms");
-        });
-      },
-    },
+    nodeExternalsPlugin,
+    buildTimePlugin,
   ],
 });
 

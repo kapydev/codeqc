@@ -7,8 +7,7 @@
   "scripts": {
     "test": "ava",
     "build": "node esbuild.config.js",
-    "dev": "node esbuild.config.js --watch",
-    "prepare": "npm run build"
+    "dev": "node esbuild.config.js --watch"
   },
   "bin": {
     "codeqc": "./dist/cli.js"
@@ -29,6 +28,7 @@
     "commander": "^12.0.0",
     "dotenv": "^16.4.5",
     "esbuild": "^0.20.2",
+    "esbuild-node-externals": "^1.13.0",
     "execa": "^8.0.1",
     "lighthouse": "^11.7.1",
     "openai": "^4.33.0"
