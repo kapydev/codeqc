@@ -5,7 +5,7 @@ import { getGPTReview } from "./reviewers/ai/gpt";
 import { Folder, filterRelevantFiles, getFolderFromPath } from "../helpers";
 import { FullReview } from "./reviewers/reviewScore";
 import { getLightHouseReview } from "./reviewers/static/lighthouse";
-// import { getWallaceReview } from "./reviewers/static/wallace";
+import { getWallaceReview } from "./reviewers/static/wallace";
 
 export async function getReview(folder: string | Folder) {
   console.log("✨ Running Code Review");
@@ -65,10 +65,10 @@ export async function getReview(folder: string | Folder) {
                 title: "Running LightHouse Review",
                 task: () => getLightHouseReview(relevantFiles),
               },
-              // {
-              //   title: 'Running Wallace Review',
-              //   task: () => getWallaceReview(relevantFiles),
-              // },
+              {
+                title: 'Running Wallace Review',
+                task: () => getWallaceReview(relevantFiles),
+              },
             ],
             {
               concurrent: true, // Run all tasks concurrently

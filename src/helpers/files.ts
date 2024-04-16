@@ -12,6 +12,11 @@ export type Folder = {
   subfolders: Folder[];
 };
 
+export function traverseFolder(folder: Folder, handler: (file: File) => void) {
+  folder.files.forEach(handler);
+  folder.subfolders.forEach((subfolder) => traverseFolder(subfolder, handler));
+}
+
 export async function getFolderFromPath(dirPath: string): Promise<Folder> {
   const entries = await fs.readdir(dirPath, { withFileTypes: true });
   const folder: Folder = {
