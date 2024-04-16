@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "A package using multiple 3rd party tools for checking frontend code quality metrics",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "test": "ava",
     "build": "tsc",
