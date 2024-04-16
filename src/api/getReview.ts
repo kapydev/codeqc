@@ -4,8 +4,8 @@ import { getGeminiReview } from "./reviewers/ai/gemini";
 import { getGPTReview } from "./reviewers/ai/gpt";
 import { Folder, filterRelevantFiles, getFolderFromPath } from "../helpers";
 import { FullReview } from "./reviewers/reviewScore";
-// import { getLightHouseReview } from "./reviewers/lighthouse";
-// import { getWallaceReview } from "./reviewers/wallace";
+import { getLightHouseReview } from "./reviewers/static/lighthouse";
+// import { getWallaceReview } from "./reviewers/static/wallace";
 
 export async function getReview(folder: string | Folder) {
   console.log("✨ Running Code Review");
@@ -54,18 +54,17 @@ export async function getReview(folder: string | Folder) {
               //     reviews.push(review);
               //   },
               // },
-              {
-                title: "Running Gemini Review",
-                task: async () => {
-                  const review = await getGeminiReview(relevantFiles);
-                  reviews.push(review);
-                },
-              },
-              // Uncomment and modify the following lines for other reviews you might want to include:
               // {
-              //   title: 'Running LightHouse Review',
-              //   task: () => getLightHouseReview(relevantFiles),
+              //   title: "Running Gemini Review",
+              //   task: async () => {
+              //     const review = await getGeminiReview(relevantFiles);
+              //     reviews.push(review);
+              //   },
               // },
+              {
+                title: "Running LightHouse Review",
+                task: () => getLightHouseReview(relevantFiles),
+              },
               // {
               //   title: 'Running Wallace Review',
               //   task: () => getWallaceReview(relevantFiles),
