@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 import { Command } from "commander";
-import { getReview } from "./index";
+import { getReview } from "./api/getReview";
 
 const program = new Command();
 
