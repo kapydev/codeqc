@@ -22,7 +22,7 @@ const ctx = await esbuild.context({
   minify: false,
   sourcemap: true,
   plugins: [
-    nodeExternalsPlugin,
+    nodeExternalsPlugin(),
     buildTimePlugin,
   ],
 });
