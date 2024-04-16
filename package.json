@@ -6,8 +6,8 @@
   "type": "module",
   "scripts": {
     "test": "ava",
-    "build": "tsc",
-    "dev": "tsc --watch",
+    "build": "node esbuild.config.js",
+    "dev": "node esbuild.config.js --watch",
     "prepare": "npm run build"
   },
   "bin": {

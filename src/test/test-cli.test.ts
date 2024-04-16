@@ -7,7 +7,7 @@ test("CodeQC can be run from the command line", async (t) => {
   const cliPath = appRoot.resolve("/dist/cli.js"); // Resolves the path to the CLI script relative to the app root
   const { stdout } = await execa("node", [cliPath, "review", name]); // Use the resolved path in execa
 
-  // Example test condition: check if the output includes the expected name
+  // Example test condition: check if the output incddludes the expected name
   // This assumes your getReview function outputs something containing 'name'
   t.true(stdout.includes(name));
 
