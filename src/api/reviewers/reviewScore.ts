@@ -9,5 +9,6 @@ export const reviewScoreSchema = z.object({
 
 // Type definition for TypeScript integration (optional)
 export type ReviewScore = z.infer<typeof reviewScoreSchema>;
+export type FullReview = ReviewScore & { reviewer: string };
 
-export type Reviewer = (folder: Folder) => Promise<ReviewScore>;
+export type Reviewer = (folder: Folder) => Promise<FullReview>;
