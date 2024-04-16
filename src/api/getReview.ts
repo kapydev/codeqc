@@ -1,7 +1,7 @@
 import ora from "ora";
-import { getClaudeReview } from "./reviewers/claude";
-import { getGeminiReview } from "./reviewers/gemini";
-import { getGPTReview } from "./reviewers/gpt";
+import { getClaudeReview } from "./reviewers/ai/claude";
+import { getGeminiReview } from "./reviewers/ai/gemini";
+import { getGPTReview } from "./reviewers/ai/gpt";
 import { Folder, filterRelevantFiles, getFolderFromPath } from "../helpers";
 // import { getLightHouseReview } from "./reviewers/lighthouse";
 // import { getWallaceReview } from "./reviewers/wallace";
@@ -28,12 +28,11 @@ export async function getReview(folder: string | Folder): Promise<void> {
 
     const relevantFiles = filterRelevantFiles(resolvedFolder);
 
-    debugger;
-
-    spinner.succeed();
-
     // AI
-    // const gptReview = await getGPTReview();
+    spinner.start("Running GPT Review");
+    const gptReview = await getGPTReview(relevantFiles);
+    spinner.succeed();
+    debugger;
     // // const claudeReview = await getClaudeReview();
     // const geminiReview = await getGeminiReview();
 

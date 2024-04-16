@@ -51,15 +51,22 @@ export function filterRelevantFiles(folder: Folder): Folder {
   };
 }
 
-export function folderToLLMString(folder: Folder): string {
-  let result = `Folder: ${folder.name}\n\n`;
+export function folderToLLMString(
+  folder: Folder,
+  basePath: string = ""
+): string {
+  let result = "";
 
+  // Process each file in the current folder
   folder.files.forEach((file) => {
-    result += `File: ${file.name}\n${file.content}\n\n`;
+    // Append the full file path and content to the result string
+    result += `File: ${basePath}${folder.name}/${file.name}\n\n${file.content}\n\n`;
   });
 
+  // Recursively process each subfolder
   folder.subfolders.forEach((subfolder) => {
-    result += folderToLLMString(subfolder);
+    // Concatenate the current folder's name to the path for deeper nesting
+    result += folderToLLMString(subfolder, `${basePath}${folder.name}/`);
   });
 
   return result;
