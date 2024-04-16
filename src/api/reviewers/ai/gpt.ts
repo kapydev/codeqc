@@ -1,6 +1,7 @@
 import OpenAI from "openai";
 import { Reviewer, reviewScoreSchema } from "../reviewScore";
 import { folderToLLMString } from "../../../helpers";
+import { BASE_LLM_QUALITY_PROMPT } from "./CONSTANTS";
 
 const apiKey = process.env.API_KEY_GPT;
 
@@ -23,32 +24,7 @@ export const getGPTReview: Reviewer = async (folder) => {
       messages: [
         {
           role: "system",
-          content: `You are a coding assistant who reviews code quality. You must return an JSON output that follows the following schema: {
-              "type": "object",
-              "properties": {
-                "remarks": {
-                  "type": "array",
-                  "items": {
-                    "type": "string"
-                  },
-                  "description": "An array of remarks on the quality of code provided to the assistant"
-                },
-                "possibleImprovements": {
-                  "type": "array",
-                  "items": {
-                    "type": "string"
-                  },
-                  "description": "An array of possible improvements that can be done to the code"
-                },
-                "quality": {
-                  "type": "number",
-                  "minimum": 0,
-                  "maximum": 100,
-                  "description": "A score of how good the provided code is, 0 being the worst and 100 being perfect"
-                },
-              },
-              "required": ["quality", "remarks", "possibleImprovements"]
-            }`,
+          content: BASE_LLM_QUALITY_PROMPT,
         },
         { role: "user", content: folderDescription },
       ],
@@ -61,7 +37,7 @@ export const getGPTReview: Reviewer = async (folder) => {
     }
 
     const result = reviewScoreSchema.parse(JSON.parse(responseText));
-    return result;
+    return { ...result, reviewer: "GPT-4" };
   } catch (e) {
     throw e;
   }

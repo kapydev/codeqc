@@ -40,20 +40,20 @@ export async function getReview(folder: string | Folder) {
         task: () => {
           return new Listr(
             [
-              {
-                title: "Running GPT Review",
-                task: async () => {
-                  const review = await getGPTReview(relevantFiles);
-                  reviews.push(review);
-                },
-              },
-              {
-                title: "Running Claude Review",
-                task: async () => {
-                  const review = await getClaudeReview(relevantFiles);
-                  reviews.push(review);
-                },
-              },
+              // {
+              //   title: "Running GPT Review",
+              //   task: async () => {
+              //     const review = await getGPTReview(relevantFiles);
+              //     reviews.push(review);
+              //   },
+              // },
+              // {
+              //   title: "Running Claude Review",
+              //   task: async () => {
+              //     const review = await getClaudeReview(relevantFiles);
+              //     reviews.push(review);
+              //   },
+              // },
               {
                 title: "Running Gemini Review",
                 task: async () => {
@@ -87,6 +87,7 @@ export async function getReview(folder: string | Folder) {
   try {
     await tasks.run();
   } catch (error) {
+    throw error;
     //TODO: Make sure listr doesn't exit on error
   }
 
