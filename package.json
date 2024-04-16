@@ -7,6 +7,7 @@
   "scripts": {
     "test": "ava",
     "build": "tsc",
+    "dev": "tsc --watch",
     "prepare": "npm run build"
   },
   "bin": {
@@ -23,6 +24,7 @@
     "@anthropic-ai/sdk": "^0.20.4",
     "@google/generative-ai": "^0.6.0",
     "@projectwallace/css-code-quality": "^1.0.0",
+    "app-root-path": "^3.1.0",
     "ava": "^6.1.2",
     "commander": "^12.0.0",
     "dotenv": "^16.4.5",
