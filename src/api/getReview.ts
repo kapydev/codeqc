@@ -7,27 +7,31 @@ import { getGPTReview } from "./reviewers/gpt";
 
 export async function getReview(filePath: string): Promise<void> {
   const spinner = ora("Reviewing Code");
-  spinner.start()
+  spinner.start();
+  spinner.succeed();
+  spinner.start("Doing something else");
+  spinner.succeed();
 
   // AI
-  const gptReview = await getGPTReview();
-  // const claudeReview = await getClaudeReview();
-  const geminiReview = await getGeminiReview();
+  // const gptReview = await getGPTReview();
+  // // const claudeReview = await getClaudeReview();
+  // const geminiReview = await getGeminiReview();
 
-  // NON-AI
-  // const lightHouseReview = await getLightHouseReview();
-  // const wallaceReview = await getWallaceReview();
+  // // NON-AI
+  // // const lightHouseReview = await getLightHouseReview();
+  // // const wallaceReview = await getWallaceReview();
 
-  const overallReview = [
-    gptReview,
-    // claudeReview,
-    geminiReview,
-    // lightHouseReview,
-    // wallaceReview,
-  ];
+  // const overallReview = [
+  //   gptReview,
+  //   // claudeReview,
+  //   geminiReview,
+  //   // lightHouseReview,
+  //   // wallaceReview,
+  // ];
 
-  console.log(`This is the file path, ${filePath}!`);
-  console.log(`This is the overall review, ${overallReview}!`);
+  // console.log(`This is the file path, ${filePath}!`);
+  // console.log(`This is the overall review, ${overallReview}!`);
+  spinner.stop();
 }
 
 /*
