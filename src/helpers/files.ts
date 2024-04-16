@@ -1,5 +1,5 @@
-import * as fs from "fs/promises";
-import * as path from "path";
+import fs from "fs/promises";
+import ___path from "path";
 
 export type File = {
   name: string;
@@ -15,13 +15,13 @@ export type Folder = {
 export async function getFolderFromPath(dirPath: string): Promise<Folder> {
   const entries = await fs.readdir(dirPath, { withFileTypes: true });
   const folder: Folder = {
-    name: path.basename(dirPath),
+    name: ___path.basename(dirPath),
     files: [],
     subfolders: [],
   };
 
   for (let entry of entries) {
-    const entryPath = path.join(dirPath, entry.name);
+    const entryPath = ___path.join(dirPath, entry.name);
     if (entry.isDirectory()) {
       const subfolder = await getFolderFromPath(entryPath);
       folder.subfolders.push(subfolder);
