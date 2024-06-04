@@ -1,5 +1,5 @@
 import { calculate } from "@projectwallace/css-code-quality";
-import { FullReview, Reviewer } from "../reviewScore";
+import { ReviewDetails, Reviewer } from "../reviewScore";
 import { traverseFolder } from "../../../helpers";
 
 export const getWallaceReview: Reviewer = async (folder) => {
@@ -13,7 +13,7 @@ export const getWallaceReview: Reviewer = async (folder) => {
   });
 
   //Parse the review data into a single review object
-  const fullReview: FullReview = {
+  const fullReview: ReviewDetails = {
     reviewer: "Wallace CSS Code Quality",
     details: reviewData,
     quality: calculateAverage(reviewData.map((review) => review.score)),
