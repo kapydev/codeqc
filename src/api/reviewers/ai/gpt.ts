@@ -1,7 +1,8 @@
 import OpenAI from "openai";
-import { Reviewer, reviewScoreSchema } from "../reviewScore";
 import { folderToLLMString } from "../../../helpers";
+import { Reviewer, reviewScoreSchema } from "../reviewScore";
 import { BASE_LLM_QUALITY_PROMPT } from "./CONSTANTS";
+import { extractJsonFromResponse } from "../../../helpers/utils";
 
 const apiKey = process.env.API_KEY_GPT;
 
@@ -28,6 +29,7 @@ export const getGPTReview: Reviewer = async (folder) => {
         },
         { role: "user", content: folderDescription },
       ],
+      temperature: 0,
     });
 
     const responseText = completion.choices[0].message.content;
@@ -36,9 +38,13 @@ export const getGPTReview: Reviewer = async (folder) => {
       throw new Error("UNABLE_TO_GENERATE_RESPONSE");
     }
 
-    const result = reviewScoreSchema.parse(JSON.parse(responseText));
+    const filteredResponse = extractJsonFromResponse(responseText);
+
+    const result = reviewScoreSchema.parse(JSON.parse(filteredResponse));
+
     return { ...result, reviewer: "GPT-4" };
   } catch (e) {
+    console.error('GPT-4 error:', e);
     throw e;
   }
 };

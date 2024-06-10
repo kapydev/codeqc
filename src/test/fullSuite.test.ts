@@ -2,9 +2,10 @@ import test from "ava";
 import { execa } from "execa";
 import appRoot from "app-root-path"; // Import app-root-path to determine the root directory
 import { getReview } from "../api";
+import path from "path";
 
 test("CodeQC can be run via API", async (t) => {
-  const review = await getReview("blabalaa");
+  const review = await getReview(path.join(__dirname, "../samples/login-screen"), "FIREJET");
   t.pass();
 });
 

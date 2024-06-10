@@ -6,10 +6,11 @@ const program = new Command();
 
 // Configure the 'review' command
 program
-  .command("review <name>") // <name> indicates that 'name' is a required parameter
-  .description("Fetch and display the review for the given name") // Optional description
-  .action((name) => {
-    getReview(name); // Call your function with the name argument
+  .command("review <folderPath>") // <folderPath> indicates that 'folderPath' is a required parameter
+  .description("Fetch and display the review for the given folder path") // Optional description
+  .requiredOption("-o, --output <outputPath>", "Specify the output folder path where the review file will be saved")
+  .action((folderPath, options) => {
+    getReview(folderPath, options.output); // Pass the output name to your function
   });
 
 // Error on unknown commands
