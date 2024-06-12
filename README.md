@@ -17,4 +17,5 @@ API_KEY_GEMINI=<Your Gemini API key>
 4. Run `npm link` to test on machine - this allows you to run `codeqc` command in the cmd line
 
 5. Run `codeqc [CODE FOLDER PATH] -o [MARKDOWN FILE NAME]` to run code review on sample code (Export full code from the Figma-to-Code plugin - either Firejet, Locofi, Builder.io, etc)
-   Example: `codeqc review c:\Users\xxx\Documents\codeqc\samples\login-screen -o firejet-test-1-landing-page`
+
+```Example: `codeqc review c:\Users\xxx\Documents\codeqc\samples\login-screen -o firejet-test-1-landing-page````
